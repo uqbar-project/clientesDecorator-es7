@@ -47,19 +47,10 @@ class ClienteSafeShopDeco {
 
 export { Cliente, ClienteSafeShopDeco }
 
-
-function decorar(objeto, nombreFuncion, nuevaFuncion) {
-	let allKeys = Object.keys(objeto)
-	let fn = allKeys.filter(key => typeof objeto[key] == 'function' && key === nombreFuncion)[0]
-	objeto[nombreFuncion] = () => {
-		nuevaFuncion.apply()
-		fn.apply()
-	}
-} 
+var comprarOld = dario.comprar
 
 dario.comprar = (monto) => { 
-	dario.comprar2 = dario.comprar
-	if (monto > 1000) 
+    if (monto > 1000) 
         throw "No puede comprar por más de 1000" 
-    dario.comprar2(monto)
+    comprarOld(monto).bind(this)
 }
