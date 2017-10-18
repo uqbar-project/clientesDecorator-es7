@@ -27,30 +27,26 @@ class Cliente {
 }
 
 function safeShop(montoMaximo) {
-    return (target) => { 
+    return (target) => {
         target.montoMaximo = montoMaximo
-        target.comprar = (monto) => {
+        target.prototype.comprar = function(monto) {
             if (monto > montoMaximo) {
                 throw new Error("No debe comprar por mas de " + montoMaximo)
             }
-            target.cliente.comprar(monto)
-    	}
+            this.cliente.comprar(monto)
+        }
     }
 }
 
 @safeShop(1000)
 class ClienteSafeShopDeco {
-	constructor(cliente) {
-		this.cliente = cliente
-	}
+    constructor(cliente) {
+        this.cliente = cliente
+    }
+
+    get deuda() {
+        return this.cliente.deuda
+    }
 }
 
 export { Cliente, ClienteSafeShopDeco }
-
-var comprarOld = dario.comprar
-
-dario.comprar = (monto) => { 
-    if (monto > 1000) 
-        throw "No puede comprar por más de 1000" 
-    comprarOld(monto).bind(this)
-}

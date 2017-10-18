@@ -1,26 +1,27 @@
-import {Cliente, ClienteSafeShopDeco}  from "../src/clientes"
+import { Cliente, ClienteSafeShopDeco } from "../src/clientes"
 
 describe('clientes', () => {
+
     let manuel
     let manuelSafeShop
 
     beforeEach(() => {
-    	manuel = new Cliente()
-    	manuelSafeShop = new ClienteSafeShopDeco(manuel)
+        manuel = new Cliente()
+        manuelSafeShop = new ClienteSafeShopDeco(manuel)
     })
 
     it('manuel compra ok', () => {
-       	manuel.comprar(2000)
+        manuel.comprar(2000)
         expect(2000).toBe(manuel.deuda)
     })
-	it('manuel con safe shop compra ok por menos del monto maximo', () => {
-       	manuelSafeShop.comprar(500)
+
+    it('manuel con safe shop compra ok por menos del monto maximo', () => {
+        manuelSafeShop.comprar(500)
         expect(500).toBe(manuelSafeShop.deuda)
     })
-	it('manuel compra ok', () => {
-		console.log("MSS: " + manuelSafeShop)
-		console.log("MSS.comprar: " + manuelSafeShop.comprar)
-       	manuelSafeShop.comprar(2000)
+
+    it('manuel compra ok', () => {
         expect(() => manuelSafeShop.comprar(2000)).toThrow(new Error("No debe comprar por mas de 1000"))
     })
+
 })
